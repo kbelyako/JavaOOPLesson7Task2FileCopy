@@ -1,12 +1,10 @@
 package com.yandex.kbelyako;
 
 public class Progress implements Runnable {
-	
-	private int number=2;
+
+	private int number = 2;
 	private Action ac;
 	private Thread thr;
-
-	
 
 	public Progress(int number, Action ac) {
 		super();
@@ -15,16 +13,12 @@ public class Progress implements Runnable {
 		thr = new Thread(this);
 	}
 
-
-
 	@Override
-	public void run() {		
+	public void run() {
 		for (; !ac.isStop();) {
-			ac.copy1(thr.getName());
+			ac.progress(thr.getName());
 		}
-		
+
 	}
-	
 
 }
-

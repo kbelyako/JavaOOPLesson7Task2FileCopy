@@ -1,13 +1,10 @@
 package com.yandex.kbelyako;
 
 public class WriteFile implements Runnable {
-	
-	private int number=3;
+
+	private int number = 3;
 	private Action ac;
 	private Thread thr;
-
-	
-	
 
 	public WriteFile(int number, Action ac) {
 		super();
@@ -16,16 +13,12 @@ public class WriteFile implements Runnable {
 		thr = new Thread(this);
 	}
 
-
-
 	@Override
 	public void run() {
 		for (; !ac.isStop();) {
-			ac.copy2(thr.getName());
+			ac.write(thr.getName());
 		}
-		
+
 	}
-	
 
 }
-
