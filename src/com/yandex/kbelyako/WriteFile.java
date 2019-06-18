@@ -4,6 +4,8 @@ public class WriteFile implements Runnable {
 	
 	private int number=3;
 	private Action ac;
+	private Thread thr;
+
 	
 	
 
@@ -11,14 +13,17 @@ public class WriteFile implements Runnable {
 		super();
 		this.number = number;
 		this.ac = ac;
+		thr = new Thread(this);
 	}
 
 
 
 	@Override
 	public void run() {
+		for (; !ac.isStop();) {
+			ac.copy2(thr.getName());
+		}
 		
-	ac.copy(this.number);	
 	}
 	
 
