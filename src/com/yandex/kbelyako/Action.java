@@ -22,7 +22,7 @@ public class Action {
 		this.in = in;
 		this.out = out;
 		this.counter = 1;
-		this.bufer = new byte[1024 * 512];
+		this.bufer = new byte[1024 * 1024];
 		this.byteread = 0;
 		this.curSize = 0;
 
