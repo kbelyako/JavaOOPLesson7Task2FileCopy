@@ -1,3 +1,8 @@
+//Java OOP Lesson 7 Task 2
+//
+//2. Реализуйте программу многопоточного копирования файла блоками с выводом прогресса на экран.
+//исправленый 
+
 package com.yandex.kbelyako;
 
 import java.io.File;
