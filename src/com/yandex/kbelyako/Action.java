@@ -25,6 +25,7 @@ public class Action {
 		this.bufer = new byte[1024 * 512];
 		this.byteread = 0;
 		this.curSize = 0;
+
 		try {
 			this.fos = new FileOutputStream(out);
 			this.fis = new FileInputStream(in);
@@ -37,7 +38,14 @@ public class Action {
 
 	public Action() {
 		super();
+	}
 
+	public File getIn() {
+		return in;
+	}
+
+	public File getOut() {
+		return out;
 	}
 
 	public boolean isStop() {
@@ -50,23 +58,21 @@ public class Action {
 
 	public synchronized void read(String text) throws IOException {
 
-		for (; (byteread = fis.read(bufer)) > 0;) {
-
-			for (; this.counter != 1;) {
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		for (; this.counter != 1;) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+		}
+		if (stop != true) {
+			byteread = fis.read(bufer);
 			System.out.println(text + " Have copied from input file-"
 					+ byteread + " Bytes");
-			// System.out.println(text + " " + byteread);
-			this.counter = 2;
-			notifyAll();
 
 		}
-
+		this.counter = 2;
+		notifyAll();
 	}
 
 	public synchronized void progress(String text) {
@@ -78,11 +84,13 @@ public class Action {
 				e.printStackTrace();
 			}
 		}
-		curSize = curSize + byteread;
-		// System.out.println("Current size of target file "+out.length());
-		System.out.println(text + " Bytes copied for the moment-" + curSize
-				+ ", " + curSize * 100 / in.length() + "%");
-		// System.out.println(text);
+		if (stop != true) {
+			curSize = curSize + byteread;
+			System.out.println(text + " Bytes copied for the moment-" + curSize
+					+ ", " + curSize * 100 / in.length() + "%");
+
+		}
+
 		this.counter = 3;
 		notifyAll();
 	}
@@ -96,18 +104,25 @@ public class Action {
 				e.printStackTrace();
 			}
 		}
-		// System.out.println(out.length());
 		try {
 			fos.write(bufer, 0, byteread);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
-		System.out.println(text + " Current size of target file-"
-				+ out.length());
-		
-		this.counter = 1;
-		notifyAll();
+		if (stop != true) {
+			System.out.println(text + " Current size of target file-"
+					+ out.length());
+			if (out.length() == in.length()) {
+				this.counter = 1;
+				stop = true;
+				notifyAll();
+			} else {
+				this.counter = 1;
+				notifyAll();
+			}
+
+		}
 	}
 
 }

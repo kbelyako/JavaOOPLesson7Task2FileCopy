@@ -18,7 +18,7 @@ public class Progress implements Runnable {
 		for (; !ac.isStop();) {
 			ac.progress(thr.getName());
 		}
-
+		System.out.println(thr.getName()+" I'm done");
 	}
 
 }

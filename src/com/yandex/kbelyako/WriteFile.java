@@ -18,7 +18,7 @@ public class WriteFile implements Runnable {
 		for (; !ac.isStop();) {
 			ac.write(thr.getName());
 		}
-
+		System.out.println(thr.getName()+" I'm done");
 	}
 
 }

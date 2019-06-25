@@ -18,19 +18,19 @@ public class ReadFile implements Runnable {
 		thr = new Thread(this);
 	}
 
-
 	@Override
 	public void run() {
+		while (ac.isStop()==false) {
+			try {
+				ac.read(thr.getName());
+			} catch (IOException e) {
 
-		try {
-			ac.read(thr.getName());
-		} catch (IOException e) {
+				e.printStackTrace();
+			}
 
-			e.printStackTrace();
 		}
-
-		ac.setStop(true);
-
+		//ac.setStop(true);
+System.out.println(thr.getName()+" I'm done");
 	}
 
 }
